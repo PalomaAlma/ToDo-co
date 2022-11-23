@@ -40,7 +40,8 @@
         "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
-        "symfony/phpunit-bridge": "^3.0",
+        "phpunit/phpunit": "^9.5",
+        "symfony/phpunit-bridge": "^6.1",
         "symfony/stopwatch": "5.4.*",
         "symfony/web-profiler-bundle": "5.4.*"
     },
