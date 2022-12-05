@@ -101,6 +101,11 @@ class Task
 
     public function getUser(): ?User
     {
+        if (!$this->user) {
+            $user = new User();
+            $user->setUsername("Anonymous");
+            return $user;
+        }
         return $this->user;
     }
 
