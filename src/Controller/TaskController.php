@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Task;
 use App\Repository\TaskRepository;
+use App\Repository\UserRepository;
 use Form\TaskType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,14 +24,16 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks/create", name="task_create")
      */
-    public function createAction(Request $request, TaskRepository $taskRepository)
+    public function createAction(Request $request, TaskRepository $taskRepository, UserRepository $userRepository)
     {
+        $user = $this->getUser();
         $task = new Task();
         $form = $this->createForm(TaskType::class, $task);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $task->setUser($user);
             $taskRepository->add($task, true);
 
             $this->addFlash('success', 'La tâche a été bien été ajoutée.');
