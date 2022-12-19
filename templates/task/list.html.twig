@@ -3,6 +3,16 @@
 {% block header_img %}<img class="slide-image" src="{{ asset('img/todolist_content.jpg') }}" alt="todo list">{% endblock %}
 
 {% block body %}
+    {% for label, message in app.flashes('delete_task_denied') %}
+        <div class="flash-label alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for label, message in app.flashes('edit_task_denied') %}
+        <div class="flash-label alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
     <a href="{{ path('task_create') }}" class="btn btn-info pull-right">Créer une tâche</a>
     <div class="row">
         {% for task in tasks %}

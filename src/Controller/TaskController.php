@@ -49,6 +49,14 @@ class TaskController extends AbstractController
      */
     public function editAction(Task $task, Request $request, TaskRepository $taskRepository)
     {
+        $user = $this->getUser();
+        if ($user !== $task->getUser() || !in_array('ROLE_ADMIN', $user->getRoles())) {
+            $this->addFlash(
+                'edit_task_denied',
+                'Vous ne pouvez pas modifier cette tâche'
+            );
+            return $this->redirectToRoute('task_list');
+        }
         $form = $this->createForm(TaskType::class, $task);
 
         $form->handleRequest($request);
@@ -85,6 +93,14 @@ class TaskController extends AbstractController
      */
     public function deleteTaskAction(Task $task)
     {
+        $user = $this->getUser();
+        if ($user !== $task->getUser() || !in_array('ROLE_ADMIN', $user->getRoles())) {
+            $this->addFlash(
+                'delete_task_denied',
+                'Vous ne pouvez pas supprimer cette tâche'
+            );
+            return $this->redirectToRoute('task_list');
+        }
         $em = $this->getDoctrine()->getManager();
         $em->remove($task);
         $em->flush();
