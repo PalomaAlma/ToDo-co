@@ -16,15 +16,23 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks", name="task_list")
      */
-    public function listAction(TaskRepository $taskRepository)
+    public function listAction(
+        TaskRepository $taskRepository
+    ): Response
     {
-        return $this->render('task/list.html.twig', ['tasks' => $taskRepository->findAll()]);
+        return $this->render(
+            'task/list.html.twig', [
+                'tasks' => $taskRepository->findAll()
+            ]);
     }
 
     /**
      * @Route("/tasks/create", name="task_create")
      */
-    public function createAction(Request $request, TaskRepository $taskRepository, UserRepository $userRepository)
+    public function createAction(
+        Request $request,
+        TaskRepository $taskRepository
+    )
     {
         $user = $this->getUser();
         $task = new Task();
@@ -36,18 +44,28 @@ class TaskController extends AbstractController
             $task->setUser($user);
             $taskRepository->add($task, true);
 
-            $this->addFlash('success', 'La tâche a été bien été ajoutée.');
+            $this->addFlash(
+                'success',
+                'La tâche a été bien été ajoutée.'
+            );
 
             return $this->redirectToRoute('task_list');
         }
 
-        return $this->render('task/create.html.twig', ['form' => $form->createView()]);
+        return $this->render(
+            'task/create.html.twig', [
+                'form' => $form->createView()
+            ]);
     }
 
     /**
      * @Route("/tasks/{id}/edit", name="task_edit")
      */
-    public function editAction(Task $task, Request $request, TaskRepository $taskRepository)
+    public function editAction(
+        Task $task,
+        Request $request,
+        TaskRepository $taskRepository
+    )
     {
         $user = $this->getUser();
         if ($user !== $task->getUser() || !in_array('ROLE_ADMIN', $user->getRoles())) {
@@ -64,12 +82,16 @@ class TaskController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $taskRepository->add($task, true);
 
-            $this->addFlash('success', 'La tâche a bien été modifiée.');
+            $this->addFlash(
+                'success',
+                'La tâche a bien été modifiée.'
+            );
 
             return $this->redirectToRoute('task_list');
         }
 
-        return $this->render('task/edit.html.twig', [
+        return $this->render(
+            'task/edit.html.twig', [
             'form' => $form->createView(),
             'task' => $task,
         ]);
@@ -78,12 +100,21 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks/{id}/toggle", name="task_toggle")
      */
-    public function toggleTaskAction(Task $task, TaskRepository $taskRepository)
+    public function toggleTaskAction(
+        Task $task,
+        TaskRepository $taskRepository
+    ): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $task->toggle(!$task->isDone());
         $taskRepository->add($task, true);
 
-        $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme faite.', $task->getTitle()));
+        $this->addFlash(
+            'success',
+            sprintf(
+                'La tâche %s a bien été marquée comme faite.',
+                $task->getTitle()
+            )
+        );
 
         return $this->redirectToRoute('task_list');
     }
@@ -91,21 +122,27 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks/{id}/delete", name="task_delete")
      */
-    public function deleteTaskAction(Task $task)
+    public function deleteTaskAction(
+        Task $task,
+        TaskRepository $taskRepository
+    ): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $user = $this->getUser();
-        if ($user !== $task->getUser() || !in_array('ROLE_ADMIN', $user->getRoles())) {
+        if ($user != $task->getUser()) {
+            if (!in_array('ROLE_ADMIN', $user->getRoles())) {
             $this->addFlash(
                 'delete_task_denied',
                 'Vous ne pouvez pas supprimer cette tâche'
             );
             return $this->redirectToRoute('task_list');
+            }
         }
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($task);
-        $em->flush();
+        $taskRepository->remove($task, true);
 
-        $this->addFlash('success', 'La tâche a bien été supprimée.');
+        $this->addFlash(
+            'success',
+            'La tâche a bien été supprimée.'
+        );
 
         return $this->redirectToRoute('task_list');
     }
