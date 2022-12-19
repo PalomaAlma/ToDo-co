@@ -16,15 +16,24 @@ class UserController extends AbstractController
     /**
      * @Route("/users", name="user_list")
      */
-    public function listAction(UserRepository $userRepository)
+    public function listAction(
+        UserRepository $userRepository
+    ): Response
     {
-        return $this->render('user/list.html.twig', ['users' => $userRepository->findAll()]);
+        return $this->render(
+            'user/list.html.twig', [
+                'users' => $userRepository->findAll()
+            ]);
     }
 
     /**
      * @Route("/users/create", name="user_create")
      */
-    public function createAction(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserRepository $userRepository)
+    public function createAction(
+        Request $request,
+        UserPasswordHasherInterface $userPasswordHasher,
+        UserRepository $userRepository
+    )
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -47,13 +56,18 @@ class UserController extends AbstractController
             return $this->redirectToRoute('user_list');
         }
 
-        return $this->render('user/create.html.twig', ['form' => $form->createView()]);
+        return $this->render(
+            'user/create.html.twig', [
+                'form' => $form->createView()
+            ]);
     }
 
     /**
      * @Route("/users/{id}/edit", name="user_edit")
      */
-    public function editAction(User $user, Request $request)
+    public function editAction(
+        User $user,
+        Request $request)
     {
         $form = $this->createForm(UserType::class, $user);
 
@@ -70,6 +84,9 @@ class UserController extends AbstractController
             return $this->redirectToRoute('user_list');
         }
 
-        return $this->render('user/edit.html.twig', ['form' => $form->createView(), 'user' => $user]);
+        return $this->render(
+            'user/edit.html.twig', [
+                'form' => $form->createView(), 'user' => $user
+            ]);
     }
 }
