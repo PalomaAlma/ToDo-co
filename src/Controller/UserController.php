@@ -16,7 +16,7 @@ class UserController extends AbstractController
     /**
      * @Route("/users", name="user_list")
      */
-    public function listAction(
+    public function list(
         UserRepository $userRepository
     ): Response
     {
@@ -29,7 +29,7 @@ class UserController extends AbstractController
     /**
      * @Route("/users/create", name="user_create")
      */
-    public function createAction(
+    public function create(
         Request $request,
         UserPasswordHasherInterface $userPasswordHasher,
         UserRepository $userRepository
@@ -65,19 +65,25 @@ class UserController extends AbstractController
     /**
      * @Route("/users/{id}/edit", name="user_edit")
      */
-    public function editAction(
+    public function edit(
         User $user,
+        UserPasswordHasherInterface $userPasswordHasher,
+        UserRepository $userRepository,
         Request $request)
     {
         $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPassword());
-            $user->setPassword($password);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $user,
+                    $form->get('password')->getData()
+                )
+            );
 
-            $this->getDoctrine()->getManager()->flush();
+            $userRepository->add($user, true);
 
             $this->addFlash('success', "L'utilisateur a bien été modifié");
 
