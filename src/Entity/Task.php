@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\TaskRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=TaskRepository::class)
@@ -24,11 +25,13 @@ class Task
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank()
      */
     private $content;
 
@@ -46,6 +49,16 @@ class Task
     {
         $this->createdAt = new \Datetime();
         $this->isDone = false;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): self
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getId(): ?int
