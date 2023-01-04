@@ -16,7 +16,7 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks", name="task_list")
      */
-    public function listAction(
+    public function list(
         TaskRepository $taskRepository
     ): Response
     {
@@ -29,18 +29,18 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks/create", name="task_create")
      */
-    public function createAction(
+    public function create(
         Request $request,
         TaskRepository $taskRepository
     )
     {
         $user = $this->getUser();
-        $task = new Task();
-        $form = $this->createForm(TaskType::class, $task);
+        $form = $this->createForm(TaskType::class);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $task = $form->getData();
             $task->setUser($user);
             $taskRepository->add($task, true);
 
@@ -61,7 +61,7 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks/{id}/edit", name="task_edit")
      */
-    public function editAction(
+    public function edit(
         Task $task,
         Request $request,
         TaskRepository $taskRepository
@@ -100,7 +100,7 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks/{id}/toggle", name="task_toggle")
      */
-    public function toggleTaskAction(
+    public function toggleTask(
         Task $task,
         TaskRepository $taskRepository
     ): \Symfony\Component\HttpFoundation\RedirectResponse
@@ -122,7 +122,7 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks/{id}/delete", name="task_delete")
      */
-    public function deleteTaskAction(
+    public function deleteTask(
         Task $task,
         TaskRepository $taskRepository
     ): \Symfony\Component\HttpFoundation\RedirectResponse
