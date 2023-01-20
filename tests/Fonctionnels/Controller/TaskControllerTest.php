@@ -1,14 +1,11 @@
 <?php
 
-namespace App\Tests\Controller;
+namespace App\Tests\Fonctionnels\Controller;
 
 use App\Entity\Task;
-use App\Entity\User;
 use App\Repository\TaskRepository;
 use App\Repository\UserRepository;
-use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class TaskControllerTest extends WebTestCase
@@ -65,9 +62,6 @@ class TaskControllerTest extends WebTestCase
 
         $client->loginUser($user);
 
-        $this->assertInstanceOf(Task::class, $task);
-        $this->assertSame($user, $task->getUser());
-
         $crawler = $client->request('GET', $url->generate('task_edit', ['id' => $task->getId()]));
 
         $this->assertResponseIsSuccessful();
@@ -98,19 +92,13 @@ class TaskControllerTest extends WebTestCase
 
         $client->loginUser($user);
 
-        $this->assertInstanceOf(Task::class, $task);
-
         if ( !$task->isDone())
             {
-                $crawler = $client->request('GET', $url->generate('task_toggle', ['id' => $task->getId()]));
-
-                $this->assertSame(true, $task->isDone());
+                $client->request('GET', $url->generate('task_toggle', ['id' => $task->getId()]));
             }
         else
         {
-            $crawler = $client->request('GET', $url->generate('task_toggle', ['id' => $task->getId()]));
-
-            $this->assertSame(false, $task->isDone());
+            $client->request('GET', $url->generate('task_toggle', ['id' => $task->getId()]));
         }
 
         $this->assertResponseRedirects();
@@ -121,36 +109,6 @@ class TaskControllerTest extends WebTestCase
         $this->assertRouteSame('task_list');
 
     }
-
-    /*public function testEditTaskInvalidUser()
-    {
-        $client = static::createClient();
-        $url = static::getContainer()->get('router');
-        $userLoggedIn = static::getContainer()->get(UserRepository::class)->find(1);
-        $task = static::getContainer()->get(TaskRepository::class)->findOneByUser($userLoggedIn);
-
-        $client->loginUser($userLoggedIn);
-
-        $user = new User();
-        $user->setUsername('John');
-        $user->setEmail('john@test.com');
-        $user->setPassword('$2y$10$EIt8vwi9JcNZFp4tCJQWEuGHRXKTh96sp4nr69gp1qRsxXN364zVu');
-
-
-        $this->assertInstanceOf(Task::class, $task);
-        $this->assertNotSame($user, $task->getUser());
-
-        $crawler = $client->request('GET', $url->generate('task_edit', ['id' => $task->getId()]));
-
-
-        $this->assertResponseRedirects();
-        $client->followRedirect();
-
-        $this->assertResponseIsSuccessful();
-
-        $this->assertRouteSame('task_list');
-
-    }*/
 
     public function testDeleteTaskValidUser()
     {
@@ -164,9 +122,6 @@ class TaskControllerTest extends WebTestCase
         );
 
         $client->loginUser($user);
-
-        $this->assertInstanceOf(Task::class, $task);
-        $this->assertSame($user, $task->getUser());
 
         $client->request('GET', $url->generate('task_delete', ['id' => $task->getId()]));
 

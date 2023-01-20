@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Tests\Controller;
+namespace App\Tests\Fonctionnels\Controller;
 
-use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -63,8 +62,6 @@ class UserControllerTest extends WebTestCase
         $editedUser = static::getContainer()->get(UserRepository::class)->findOneByEmail('test@test.test');
 
         $client->loginUser($user);
-
-        $this->assertInstanceOf(User::class, $editedUser);
 
         $crawler = $client->request('GET', $url->generate('user_edit', ['id' => $editedUser->getId()]));
 

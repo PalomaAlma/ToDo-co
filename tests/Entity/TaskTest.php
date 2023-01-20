@@ -49,6 +49,7 @@ class TaskTest extends KernelTestCase
 
         $user->setUsername('John');
         $user->setEmail('john@test.com');
+        $user->setPassword('$2y$10$EIt8vwi9JcNZFp4tCJQWEuGHRXKTh96sp4nr69gp1qRsxXN364zVu');
 
         $task = $this->getEntity();
         $task->setUser($user);
