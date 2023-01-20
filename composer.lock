@@ -6712,16 +6712,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.5.26",
+            "version": "9.5.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "851867efcbb6a1b992ec515c71cdcf20d895e9d2"
+                "reference": "a2bc7ffdca99f92d959b3f2270529334030bba38"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/851867efcbb6a1b992ec515c71cdcf20d895e9d2",
-                "reference": "851867efcbb6a1b992ec515c71cdcf20d895e9d2",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/a2bc7ffdca99f92d959b3f2270529334030bba38",
+                "reference": "a2bc7ffdca99f92d959b3f2270529334030bba38",
                 "shasum": ""
             },
             "require": {
@@ -6794,7 +6794,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.26"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.27"
             },
             "funding": [
                 {
@@ -6810,7 +6810,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-10-28T06:00:21+00:00"
+            "time": "2022-12-09T07:31:23+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -7925,16 +7925,16 @@
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v6.2.0",
+            "version": "v6.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
-                "reference": "1bd3b17db6d2ec284efbdc916600e880d6d858df"
+                "reference": "3766b8269d3bac5c214a04ebd6870e71e52bcb60"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/1bd3b17db6d2ec284efbdc916600e880d6d858df",
-                "reference": "1bd3b17db6d2ec284efbdc916600e880d6d858df",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/3766b8269d3bac5c214a04ebd6870e71e52bcb60",
+                "reference": "3766b8269d3bac5c214a04ebd6870e71e52bcb60",
                 "shasum": ""
             },
             "require": {
@@ -7988,7 +7988,7 @@
             "description": "Provides utilities for PHPUnit, especially user deprecation notices management",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/phpunit-bridge/tree/v6.2.0"
+                "source": "https://github.com/symfony/phpunit-bridge/tree/v6.2.3"
             },
             "funding": [
                 {
@@ -8004,7 +8004,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-11-18T19:08:09+00:00"
+            "time": "2022-12-28T14:26:22+00:00"
         },
         {
             "name": "symfony/web-profiler-bundle",
@@ -8148,5 +8148,5 @@
         "ext-iconv": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.0.0"
 }
