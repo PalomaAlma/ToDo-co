@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests;
+namespace App\Tests\Fonctionnels;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -29,7 +29,7 @@ class SecurityTest extends WebTestCase
     public function testLogout(): void
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', '/logout');
+        $client->request('GET', '/logout');
 
         $this->assertResponseRedirects();
 
